@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SNI Catalogue</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <img 
+        src="https://lh3.googleusercontent.com/d/1DCPikRxxh7cMLpToo21NHF65kCQNNK2y" 
+        alt="SNI Logo" 
+        class="logo"
+      />
+    </div>
+    <div class="company-info">
+      <h1>SRI NEELKANTH IMPEX PVT. LTD.</h1>
+      <p>📞 WhatsApp: <a href="https://wa.me/917986297302" target="_blank">+91 79862 97302</a></p>
+    </div>
+  </header>
+
+  <main>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Search by Item Code, Name, or Category..." />
+      <button onclick="performSearch()">Search</button>
+      <button onclick="clearSearch()">Clear</button>
+    </div>
+    <div id="breadcrumb"></div>
+    <div id="catalogue" class="fade"></div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 SRI NEELKANTH IMPEX PVT. LTD. | Powered by Grotech</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
