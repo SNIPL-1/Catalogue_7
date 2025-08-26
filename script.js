@@ -1,16 +1,8 @@
-//const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTp1LlW5tsWIyE7E5BGFiKHS2qBjzh8wGaZdR3EsQSzXVyxgq1hrh4y54KpkVHiL-4Moux0CA43c4nb/pub?gid=0&single=true&output=csv";
-//const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTp1LlW5tsWIyE7E5BGFiKHS2qBjzh8wGaZdR3EsQSzXVyxgq1hrh4y54KpkVHiL-4Moux0CA43c4nb/pubhtml?gid=0&single=true";
-//const IMAGE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTp1LlW5tsWIyE7E5BGFiKHS2qBjzh8wGaZdR3EsQSzXVyxgq1hrh4y54KpkVHiL-4Moux0CA43c4nb/pub?gid=676833393&single=true&output=csv";
-//const IMAGE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTp1LlW5tsWIyE7E5BGFiKHS2qBjzh8wGaZdR3EsQSzXVyxgq1hrh4y54KpkVHiL-4Moux0CA43c4nb/pubhtml?gid=676833393&single=true";
-//const CATEGORY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTp1LlW5tsWIyE7E5BGFiKHS2qBjzh8wGaZdR3EsQSzXVyxgq1hrh4y54KpkVHiL-4Moux0CA43c4nb/pub?gid=1151803807&single=true&output=csv"; // <-- Add your Categories sheet link here
-//const CATEGORY_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTp1LlW5tsWIyE7E5BGFiKHS2qBjzh8wGaZdR3EsQSzXVyxgq1hrh4y54KpkVHiL-4Moux0CA43c4nb/pubhtml?gid=1151803807&single=true"; // <-- Add your Categories sheet link here
 const BASE_URL = "https://script.google.com/macros/s/XXXX/exec"; // your web app URL
 
 const DATA_URL = `${BASE_URL}?sheet=Data`;
 const IMAGE_URL = `${BASE_URL}?sheet=Images`;
 const CATEGORY_URL = `${BASE_URL}?sheet=Categories`; // optional if you use Categories tab later
-
-
 
 let allData = [];
 let imageMap = {};
@@ -26,14 +18,11 @@ Promise.all([
   fetch(CATEGORY_URL).then(res => res.text())
 ])
 .then(([dataText, imageText, categoryText]) => {
-  // Parse main items data
   allData = Papa.parse(dataText, { header: true }).data
     .filter(row => row["Item Code"] && row["Category"]);
 
-  // Clean up category names
   allData.forEach(row => row["Category"] = row["Category"].trim());
 
-  // Parse item images
   const imageParsed = Papa.parse(imageText, { header: true }).data;
   imageParsed.forEach(row => {
     if (row["Item Code"] && row["Image URL"]) {
@@ -41,7 +30,6 @@ Promise.all([
     }
   });
 
-  // Parse category images
   const categoryParsed = Papa.parse(categoryText, { header: true }).data;
   categoryParsed.forEach(row => {
     if (row["Category"] && row["Image URL"]) {
@@ -116,8 +104,7 @@ function renderItems(category) {
     const img = imageMap[code] || "default.jpg";
     const item = allData.find(row => row["Item Code"] === code);
     const itemName = item?.["Item Name"] || "";
-    
-    // 🔹 Added item code display under name
+
     div.innerHTML = `
       <img src="${img}" alt="${code}" class="card-image"/>
       <div class="card-title">${itemName}</div>
@@ -134,7 +121,6 @@ function renderItemDetail(itemCode) {
   renderBreadcrumb("item");
   const container = document.getElementById("catalogue");
 
-  // 🔹 Filter by BOTH category and item code
   const entries = allData.filter(
     row => row["Item Code"] === itemCode && row["Category"] === currentCategory
   );
@@ -158,7 +144,6 @@ function renderItemDetail(itemCode) {
       </tr>
       ${entries
         .reduce((unique, entry) => {
-          // Ensure unique Variant Codes
           if (!unique.some(e => e["Variant Code"] === entry["Variant Code"])) {
             unique.push(entry);
           }
@@ -183,7 +168,6 @@ function renderItemDetail(itemCode) {
     </table>
   `;
 }
-
 
 /* ---------- Global Search ---------- */
 function performSearch() {
@@ -225,9 +209,3 @@ function clearSearch() {
   document.getElementById("searchInput").value = "";
   renderCategories();
 }
-
-
-
-
-
-
