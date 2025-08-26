@@ -1,4 +1,4 @@
-const BASE_URL = "https://script.google.com/macros/s/XXXX/exec"; // your web app URL
+const BASE_URL = "https://script.google.com/macros/s/AKfycbzAaTE6x0ZwxrpOG_U3gsHirnwGAeGD6-LpeMq6Jp1DeVtJnb0ROjqGIKwU0erY8agnQQ/exec"; // your web app URL
 
 const DATA_URL = `${BASE_URL}?sheet=Data`;
 const IMAGE_URL = `${BASE_URL}?sheet=Images`;
@@ -209,3 +209,4 @@ function clearSearch() {
   document.getElementById("searchInput").value = "";
   renderCategories();
 }
+
